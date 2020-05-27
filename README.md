@@ -41,4 +41,4 @@ This is a code snippet to apply to a entire variable:
 ```
 - Refs:
    - [PEP498](https://docs.python.org/3/whatsnew/3.6.html#whatsnew36-pep498)
-   - [stackoverflow] (How do I convert a string into a formatted string literal at run-time?)
+   - [stackoverflow:How do I convert a string into a formatted string literal at run-time?] (https://stackoverflow.com/questions/49852860/how-do-i-convert-a-string-into-a-formatted-string-literal-at-run-time)
