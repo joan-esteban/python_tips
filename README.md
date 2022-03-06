@@ -2,6 +2,51 @@
 
 This is a CVS where to keep code fragments that I may need in the future
 
+## Make a class serializable to JSON
+Check stackoverflow answer here: https://stackoverflow.com/questions/3768895/how-to-make-a-class-json-serializable
+
+🚨 If you need serialization but don't need to be in json format you could use: [pickle](https://docs.python.org/3/library/pickle.html)
+
+The steps are:
+- Change the Json Encoder function for our own version, that first try to use `to_json` function if exists, if not call the default Enconder
+- Each class that we want to be serializable must implement `to_json` method
+
+You must execute this code before a class definition
+```
+from json import JSONEncoder
+
+#https://stackoverflow.com/questions/3768895/how-to-make-a-class-json-serializable
+def _default(self, obj):
+    return getattr(obj.__class__, "to_json", _default.default)(obj)
+
+_default.default = JSONEncoder().default
+JSONEncoder.default = _default
+```
+
+After that you could create class with the method `to_json` that must return a dict
+```
+class MyClass:
+    def __init__(self):
+        self.field1 = 1234
+        self.field2 = "1234"
+   
+       def to_json(self):
+        return self.__dict__
+```
+## Create 'functional' attributes 
+Sometimes your class are going to have some field that could be calculated you can use decorator `@property`
+
+```
+class MyClass:
+    def __init__(self,h , w):
+        self.height = h
+        self.width = w
+   @property
+   def area():
+        return self.height * self.width
+```
+
+
 ## Run-time PEP 498: Formatted string literals
 - Since Python 3.6 there are a new way to format string prefixing with f"name variable in context is equal to {name}"
 - How to do that reading data from a file?
