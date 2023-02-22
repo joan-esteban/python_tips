@@ -2,6 +2,32 @@
 
 This is a CVS where to keep code fragments that I may need in the future
 
+## Make a https server with no extra package
+```
+from http.server import BaseHTTPRequestHandler, HTTPServer
+import ssl
+# Generating key:  https://serverfault.com/a/366374/504134
+# openssl req  -nodes -new -x509  -keyout server.key -out server.cert
+
+class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
+
+    def do_GET(self):
+        print("do_Get")
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write(b'Hello, world!')
+    def do_POST(self):
+        print("do_POST")
+
+httpd = HTTPServer(("0.0.0.0", 443), SimpleHTTPRequestHandler)
+
+httpd.socket = ssl.wrap_socket (httpd.socket,
+        keyfile="./server.key",
+        certfile='./server.cert', server_side=True)
+
+httpd.serve_forever()
+```
+
 ## Make a class serializable to JSON
 Check stackoverflow answer here: https://stackoverflow.com/questions/3768895/how-to-make-a-class-json-serializable
 
